@@ -6,7 +6,6 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-
         public bool completed { get; set; }
     }
 }

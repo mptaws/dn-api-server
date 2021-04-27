@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "edhEg5f9TiQskhkHVkOBVvngM2w0KHsWY0sC87gZ2d9mMkGYrdoSb/aHfSyiz+vPLyJO8OmBhlVOE4YD6awmGA==",
+  "dgSpecHash": "M/Mle2svSCqjnf3C3RMxgm5uC0xnD4U9vNJZ/wRxHNz+2BS/0hSWao3elMNq0Yo9FbLniWvgsF1jvnZ8FPqn/A==",
   "success": true,
   "projectFilePath": "/Users/tuszym/code/dn-api-server/API/API.csproj",
   "expectedPackageFiles": [
