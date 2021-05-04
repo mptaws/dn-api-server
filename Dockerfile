@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-nanoserver-1809
 COPY bin/Release/net5.0/publish/ App/
 WORKDIR /App
 EXPOSE 5000
