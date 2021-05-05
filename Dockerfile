@@ -45,9 +45,9 @@ RUN setx /M PATH "%PATH%;C:\Program Files\powershell"
 
 # Trigger first run experience by running arbitrary cmd
 RUN dotnet help
-
-COPY bin/Release/net5.0/publish/ App/
 WORKDIR /App
+COPY bin/Release/net5.0/publish/ App/
+
 EXPOSE 5000
 ENV ASPNETCORE_URLS=https://+:5000
 ENTRYPOINT ["dotnet", "API.dll"]
