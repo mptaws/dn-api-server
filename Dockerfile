@@ -1,7 +1,6 @@
 # escape=`
 
-ARG REPO=mcr.microsoft.com/dotnet/aspnet
-FROM $REPO:5.0-windowsservercore-ltsc2019
+FROM mcr.microsoft.com/dotnet/runtime:5.0-nanoserver-20H2
 
 ENV `
     # Unset ASPNETCORE_URLS from aspnet base image
