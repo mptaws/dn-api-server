@@ -14,13 +14,15 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            var connStr = config.GetSection("connStr").Value;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                //opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                opt.UseSqlServer(connStr);
             });
             services.AddCors(opt =>
             {

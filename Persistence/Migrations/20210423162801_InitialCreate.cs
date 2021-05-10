@@ -11,7 +11,7 @@ namespace Persistence.Migrations
                 name: "Todos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     completed = table.Column<bool>(type: "INTEGER", nullable: false)
                 },

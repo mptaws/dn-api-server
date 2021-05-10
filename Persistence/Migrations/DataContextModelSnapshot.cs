@@ -18,7 +18,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Todo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
