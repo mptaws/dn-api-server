@@ -9,9 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence;
-using Amazon;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
 
 
 namespace API
@@ -30,7 +27,7 @@ namespace API
             {
                 var context = services.GetRequiredService<DataContext>();
                 await context.Database.MigrateAsync();
-                await Seed.SeedData(context);
+
             }
             catch (Exception ex)
             {
@@ -44,35 +41,9 @@ namespace API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                // .ConfigureAppConfiguration((hostingContext, config) =>
-                // {
-                //     config.AddSystemsManager($"/db", TimeSpan.FromMinutes(1));
-                // })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureAppConfiguration(((context, builder) =>
-                {
-                    var environmentName = (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development").ToLower();
-
-                    builder.AddJsonFile("appsettings.json");
-                    builder.AddEnvironmentVariables();
-
-                    AWSOptions awsOptions = null;
-
-                    if (Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID") != null)
-                    {
-                        awsOptions = new AWSOptions();
-                        awsOptions.Region = RegionEndpoint.USWest2;
-                        awsOptions.Credentials = new EnvironmentVariablesAWSCredentials();
-                    }
-
-                    builder.AddSystemsManager((source) =>
-                    {
-                        source.Path = $"/db";
-                        source.AwsOptions = awsOptions;
-                    });
-                }));
+                });
     }
 }
