@@ -10,7 +10,7 @@ namespace Application.Todos
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
