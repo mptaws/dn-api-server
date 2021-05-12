@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Application.Todos;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Persistence;
 
 namespace API.Controllers
 {
@@ -22,13 +21,6 @@ namespace API.Controllers
         {
             return await Mediator.Send(new Details.Query{Id = id});
         }
-
-        [HttpGet("seed")]  //todos/id
-        public async Task<ActionResult<Todo>> SeedTodo(int id)
-        {
-            return Ok(await Mediator.Send( new Seed.Command {} ));
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> CreateTodo(Todo todo)

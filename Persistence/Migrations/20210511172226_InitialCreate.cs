@@ -1,4 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Persistence;
+using System.Data;
+using System;
 
 namespace API.Migrations
 {
@@ -6,7 +11,7 @@ namespace API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            if (!Exists("dbo.Todos"))
+            if (!Exists("dbo", "Todos"))
             {
                 migrationBuilder.CreateTable(
                     name: "Todos",
@@ -22,7 +27,6 @@ namespace API.Migrations
                         table.PrimaryKey("PK_Todos", x => x.Id);
                     });
             }
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -31,13 +35,43 @@ namespace API.Migrations
                 name: "Todos");
         }
 
-        private static bool Exists(string tableName)
+        private static DbContextOptions GetOptions(string connectionString)
         {
-            using (var context = new DbContext(config.GetValue<string>("CONNSTR"))
-            {
-                var count = context.Database.SqlQuery<int>("SELECT COUNT(OBJECT_ID(@p0, 'U'))", tableName);
+            return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder(), connectionString).Options;
+        }
 
-                return count.Any() && count.First() > 0;
+        public bool Exists(string schema, string tableName)
+        {
+            var dbHost = Environment.GetEnvironmentVariable("DBHOST");
+            var dbUser = Environment.GetEnvironmentVariable("DBUSER");
+            var dbPass = Environment.GetEnvironmentVariable("DBPASS");
+            var dbName = "tododb";
+            var connStr = $"Server="+dbHost+"; Database="+dbName+"; User ID="+dbUser+"; Password="+dbPass+";";
+
+            var context = new DataContext(GetOptions(connStr));
+            var connection = context.Database.GetDbConnection();
+
+            if (connection.State.Equals(ConnectionState.Closed))
+                connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = @"
+                    SELECT 1 FROM INFORMATION_SCHEMA.TABLES 
+                    WHERE TABLE_SCHEMA = @Schema
+                    AND TABLE_NAME = @TableName";
+
+                var schemaParam = command.CreateParameter();
+                schemaParam.ParameterName = "@Schema";
+                schemaParam.Value = schema;
+                command.Parameters.Add(schemaParam);
+
+                var tableNameParam = command.CreateParameter();
+                tableNameParam.ParameterName = "@TableName";
+                tableNameParam.Value = tableName;
+                command.Parameters.Add(tableNameParam);
+
+                return command.ExecuteScalar() != null;
             }
         }
     }
