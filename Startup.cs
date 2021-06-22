@@ -7,6 +7,10 @@ using Application.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.SpaServices;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,11 +41,16 @@ namespace API
             services.AddControllers();
             services.AddApplicationServices(_config);
             services.AddHealthChecks();
+            services.AddSpaStaticFiles(_config => {
+                _config.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -49,7 +58,14 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+            app.Map("/frontend", spaApp =>
+            {
+                spaApp.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "/"; // source path
+                });
+            });
 
             app.UseRouting();
 
@@ -62,6 +78,8 @@ namespace API
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/health");
             });
+
+            
         }
     }
 }

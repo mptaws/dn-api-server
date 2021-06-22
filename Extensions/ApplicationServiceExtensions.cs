@@ -15,9 +15,12 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            var dbHost = Environment.GetEnvironmentVariable("DBHOST");
-            var dbUser = Environment.GetEnvironmentVariable("DBUSER");
-            var dbPass = Environment.GetEnvironmentVariable("DBPASS");
+            // var dbHost = Environment.GetEnvironmentVariable("DBHOST");
+            // var dbUser = Environment.GetEnvironmentVariable("DBUSER");
+            // var dbPass = Environment.GetEnvironmentVariable("DBPASS");
+            var dbHost = "api-mssqlserver.crq2yvpj2cdh.us-west-2.rds.amazonaws.com";
+            var dbUser = "admin";
+            var dbPass = "HSMIyaftjGvuOJzS5307s6XKOkUwDugl";
             var dbName = "tododb";
             var connStr = $"Server="+dbHost+"; Database="+dbName+"; User ID="+dbUser+"; Password="+dbPass+";";
 

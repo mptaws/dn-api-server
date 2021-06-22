@@ -1,0 +1,11 @@
+.header {
+    padding-top: 50px;
+    height: 200px;
+    width: 100%;
+    background-color: #E9EEF6;
+}
+
+.card-container{
+    display: flex;
+    justify-content: center;
+}

@@ -13,7 +13,6 @@ COPY --from=build-env /app/out .
 
 EXPOSE 5000
 ENV ASPNETCORE_URLS=http://+:5000
-HEALTHCHECK CMD curl --fail http://localhost:5000/health || exit
 
 ENTRYPOINT ["dotnet", "api.dll"]
 

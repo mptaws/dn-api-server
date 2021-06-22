@@ -16,18 +16,21 @@ namespace Persistence
             {
                 new Todo
                 {
-                    Title = "Past Todo 1",
-                    completed = false
+                    Title = "Past Todo",
+                    completed = false,
+                    Description = "Description of the Past Todo Task"
                 },
                 new Todo
                 {
-                    Title = "Past Todo 2",
-                    completed = true
+                    Title = "Present Todo",
+                    completed = true,
+                    Description = "Description of the Present Todo Task"
                 },
                 new Todo
                 {
-                    Title = "Future Todo 1",
-                    completed = false
+                    Title = "Future Todo",
+                    completed = false,
+                    Description = "Description of the Future Todo Task"
                 }
             };
 
